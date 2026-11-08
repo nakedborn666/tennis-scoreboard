@@ -35,9 +35,9 @@ class Match:
 
     @property
     def current_set_data(self):
-        return {"games": [self.current_set.player1_games, self._current_set.player2_games],
+        return {"games": [self.current_set.player1_games, self.current_set.player2_games],
                 "points": [self.current_set.current_game.player1_points, self.current_set.current_game.player2_points],
-                "tiebreak": self._current_set.tiebreak}
+                "tiebreak": self.current_set.tiebreak}
 
 
 
