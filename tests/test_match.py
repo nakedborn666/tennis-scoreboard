@@ -1,6 +1,6 @@
 from domain.match import Match
 import pytest
-from exceptions.exceptions import MatchAlreadyEnded
+from exceptions.exceptions import MatchAlreadyEndedError
 
 
 def test_new_match():
@@ -90,7 +90,7 @@ def test_match_already_ended_before_won_point():
     assert match._is_match_ended()
     assert match._current_set._games == {1: 6,
                                          2: 2}
-    with pytest.raises(MatchAlreadyEnded):
+    with pytest.raises(MatchAlreadyEndedError):
         match.won_point(player_number=1)
 
 

@@ -1,6 +1,6 @@
 import pytest
 from domain.game import Game
-from exceptions.exceptions import GameAlreadyEnded
+from exceptions.exceptions import GameAlreadyEndedError
 
 def test_new_game():
     game = Game()
@@ -42,7 +42,7 @@ def test_game_already_ended_before_won_point():
     game = Game()
     game._points = {1: 4,
                     2: 2}
-    with pytest.raises(GameAlreadyEnded):
+    with pytest.raises(GameAlreadyEndedError):
         game.won_point(player_number=1)
 
 

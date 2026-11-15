@@ -1,5 +1,5 @@
 from domain.game import Game
-from exceptions.exceptions import SetAlreadyEnded, TieBreakAlreadyEnded, TieBreakNotEnded
+from exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError, TieBreakNotEndedError
 
 
 class Set:
@@ -56,7 +56,7 @@ class Set:
         if player not in (1, 2):
             raise ValueError("Введите существующий номер игрока(1 или 2)")
         if self.tiebreak_winner() is not None:
-            raise TieBreakAlreadyEnded
+            raise TieBreakAlreadyEndedError
         self._tiebreak[player] += 1
 
 
@@ -72,7 +72,7 @@ class Set:
             self._tiebreak = {1: 0,
                               2: 0}
         else:
-            raise TieBreakNotEnded
+            raise TieBreakNotEndedError
 
 
     def tiebreak_winner(self) -> int | None:
@@ -109,7 +109,7 @@ class Set:
         if player_number not in (1, 2):
             raise ValueError("Введите существующий номер игрока(1 или 2)")
         if self.winner() is not None:
-            raise SetAlreadyEnded
+            raise SetAlreadyEndedError
         if not self._is_it_tiebreak():
             self._current_game.won_point(player_number)
             winner = self._current_game.winner()
@@ -119,7 +119,7 @@ class Set:
                     self._current_game = Game()
         else:
             if self._is_tiebreak_ended():
-                raise SetAlreadyEnded
+                raise SetAlreadyEndedError
             else:
                 self.won_tiebreak_point(player_number)
                 if self._is_tiebreak_ended():

@@ -8,9 +8,8 @@ from sqlalchemy import select, or_, func
 from domain.match import Match
 from services.player_service import PlayerService
 from domain.score_serializer import match_to_dict, match_from_dict
-from exceptions.exceptions import MatchDoesntExists, MatchAlreadyEnded
+from exceptions.exceptions import MatchDoesntExistsError, MatchAlreadyEndedError
 from dto.match_dto import MatchDTO, MatchesPageDTO
-
 
 
 _PAGE_SIZE = 5
@@ -34,6 +33,11 @@ class MatchService:
         return match_model
 
 
+    def get_match_score_by_uuid(self, uuid):
+        match = self.get_match_by_uuid(uuid)
+        return match.score
+
+
     def get_match_by_uuid(self, uuid):
         stmt = select(MatchModel).where(MatchModel.uuid==uuid)
         match = self.session.scalar(stmt)
@@ -43,10 +47,10 @@ class MatchService:
     def add_point(self, uuid, player_number):
         match = self.get_match_by_uuid(uuid)
         if match is None:
-            raise MatchDoesntExists
+            raise MatchDoesntExistsError
 
         if match.winner_id is not None:
-            raise MatchAlreadyEnded
+            raise MatchAlreadyEndedError
 
         score = json.loads(match.score)
         domain_match = match_from_dict(score)

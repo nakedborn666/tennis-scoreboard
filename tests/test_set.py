@@ -1,6 +1,6 @@
 from domain.set import Set
 import pytest
-from exceptions.exceptions import SetAlreadyEnded, TieBreakAlreadyEnded
+from exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError
 from domain.game import Game
 
 
@@ -69,7 +69,7 @@ def test_set_already_ended_before_won_point():
                                        2: 2}
     match_set._games = {1: 7,
                         2: 5}
-    with pytest.raises(SetAlreadyEnded):
+    with pytest.raises(SetAlreadyEndedError):
         match_set.won_point(1)
 
 
@@ -123,7 +123,7 @@ def test_tie_break_already_ended():
                         2: 6}
     match_set._tiebreak = {1: 7,
                            2: 5}
-    with pytest.raises(TieBreakAlreadyEnded):
+    with pytest.raises(TieBreakAlreadyEndedError):
         match_set.won_tiebreak_point(1)
 
 
@@ -179,7 +179,7 @@ def test_set_already_ended_after_won_point():
     set_match._games = {1: 6,
                         2: 2}
 
-    with pytest.raises(SetAlreadyEnded):
+    with pytest.raises(SetAlreadyEndedError):
         set_match.won_point(1)
 
 

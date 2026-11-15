@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Новый матч</h1>
+
+    <form method="post" action="/new-match">
+        <label for="player1_name">Имя игрока 1</label>
+        <input id="player1_name" name="player1_name" type="text" required>
+
+        <label for="player2_name">Имя игрока 2</label>
+        <input id="player2_name" name="player2_name" type="text" required>
+
+        <button type="submit">Начать</button>
+    </form>
+{% endblock %}

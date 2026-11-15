@@ -1,5 +1,5 @@
 from domain.set import Set
-from exceptions.exceptions import MatchAlreadyEnded
+from exceptions.exceptions import MatchAlreadyEndedError
 
 class Match:
     def __init__(self):
@@ -61,7 +61,7 @@ class Match:
         if player_number not in (1, 2):
             raise ValueError("Введите существующий номер игрока(1 или 2)")
         if self._is_match_ended():
-            raise MatchAlreadyEnded
+            raise MatchAlreadyEndedError
         self._current_set.won_point(player_number)
         winner = self._current_set.winner()
         if winner is not None:

@@ -1,5 +1,5 @@
 
-from exceptions.exceptions import GameAlreadyEnded
+from exceptions.exceptions import GameAlreadyEndedError
 
 _POINT_NAMES = {0: "0",
                 1: "15",
@@ -56,7 +56,7 @@ class Game:
         if player_number not in (1, 2):
             raise ValueError("Введите существующий номер игрока(1 или 2)")
         if self.winner() is not None:
-            raise GameAlreadyEnded
+            raise GameAlreadyEndedError
         self._points[player_number] += 1
         if (self.player1_points, self.player2_points) == (4, 4):
             self._points = {1: 3,
