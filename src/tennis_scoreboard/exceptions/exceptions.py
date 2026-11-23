@@ -57,3 +57,14 @@ class BadRequestError(Exception):
         self.message = "BadRequestError"
         super().__init__(self.message)
 
+
+class MatchUuidDoesntExistError(Exception):
+    def __init__(self):
+        self.message = "несуществующий uuid матча"
+        super().__init__(self.message)
+
+
+class PageShouldBeNumberError(Exception):
+    def __init__(self):
+        self.message = "номер страницы должен быть положительным числом"
+        super().__init__(self.message)

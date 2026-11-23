@@ -1,6 +1,6 @@
-from domain.match import Match
+from tennis_scoreboard.domain.match import Match
 import pytest
-from exceptions.exceptions import MatchAlreadyEndedError
+from tennis_scoreboard.exceptions.exceptions import MatchAlreadyEndedError
 
 
 def test_new_match():

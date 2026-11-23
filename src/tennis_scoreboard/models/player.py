@@ -1,6 +1,7 @@
-from models.base import Base
+from tennis_scoreboard.models.base import Base
 from sqlalchemy.orm import Mapped, mapped_column
-from sqlalchemy import String
+from sqlalchemy import String, select
+
 
 
 

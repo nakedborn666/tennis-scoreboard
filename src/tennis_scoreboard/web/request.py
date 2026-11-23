@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from urllib.parse import parse_qs
-from exceptions.exceptions import BadRequestError
+from tennis_scoreboard.exceptions.exceptions import BadRequestError
 
 
 @dataclass

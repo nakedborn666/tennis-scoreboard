@@ -1,6 +1,6 @@
 import pytest
-from domain.game import Game
-from exceptions.exceptions import GameAlreadyEndedError
+from tennis_scoreboard.domain.game import Game
+from tennis_scoreboard.exceptions.exceptions import GameAlreadyEndedError
 
 def test_new_game():
     game = Game()

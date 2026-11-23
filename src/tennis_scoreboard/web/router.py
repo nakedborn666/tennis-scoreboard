@@ -1,4 +1,4 @@
-from exceptions.exceptions import RouteDoesntExistsError, MethodDismatchToPathError, RouteAlreadyRegistredError
+from tennis_scoreboard.exceptions.exceptions import RouteDoesntExistsError, MethodDismatchToPathError, RouteAlreadyRegistredError
 from collections.abc import Callable
 
 class Router:

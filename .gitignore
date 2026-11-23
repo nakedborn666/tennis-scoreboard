@@ -1,6 +1,10 @@
 .venv/
 .idea/
 __pycache__/
-config.py
 learning.md
 .pytest_cache/
+transaction_test.py
+begin_script.py
+*.egg-info/
+build/
+dist/

@@ -1,5 +1,5 @@
-from domain.game import Game
-from exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError, TieBreakNotEndedError
+from tennis_scoreboard.domain.game import Game
+from tennis_scoreboard.exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError, TieBreakNotEndedError
 
 
 class Set:
@@ -23,6 +23,11 @@ class Set:
                              2: 0} if tiebreak is None else {1: tiebreak[0],
                                                              2: tiebreak[1]}
         return set_obj
+
+
+    @property
+    def games(self):
+        return (self._games[1], self._games[2])
 
 
     @property

@@ -1,6 +1,6 @@
-from web.request import Request
+from tennis_scoreboard.web.request import Request
 import io
-from exceptions.exceptions import BadRequestError
+from tennis_scoreboard.exceptions.exceptions import BadRequestError
 import pytest
 
 def test_from_request_get():

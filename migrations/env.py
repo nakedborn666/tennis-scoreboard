@@ -5,9 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from config import url_config
-from models.base import Base
-import models
+from tennis_scoreboard.config import url_config
+from tennis_scoreboard.models.base import Base
+import tennis_scoreboard.models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

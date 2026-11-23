@@ -1,15 +1,16 @@
 import json
 import math
 from uuid import uuid4
-from models.match import MatchModel
-from models.player import PlayerModel
+from tennis_scoreboard.models.match import MatchModel
+from tennis_scoreboard.models.player import PlayerModel
 from sqlalchemy.orm import aliased
 from sqlalchemy import select, or_, func
-from domain.match import Match
-from services.player_service import PlayerService
-from domain.score_serializer import match_to_dict, match_from_dict
-from exceptions.exceptions import MatchDoesntExistsError, MatchAlreadyEndedError
-from dto.match_dto import MatchDTO, MatchesPageDTO
+from tennis_scoreboard.domain.match import Match
+from tennis_scoreboard.services.player_service import PlayerService
+from tennis_scoreboard.domain.score_serializer import match_to_dict, match_from_dict
+from tennis_scoreboard.exceptions.exceptions import MatchDoesntExistsError, MatchAlreadyEndedError
+from tennis_scoreboard.dto.match_dto import MatchDTO, MatchesPageDTO
+from tennis_scoreboard.dto.score_dto import MatchScoreDTO, PlayerScoreDTO
 
 
 _PAGE_SIZE = 5
@@ -26,16 +27,48 @@ class MatchService:
         match_dict = match_to_dict(domain_match)
         match_json = json.dumps(match_dict)
         match_uuid = str(uuid4())
-        match_model = MatchModel(uuid=match_uuid, player1_id=player1.id, player2_id=player2.id, winner_id=None, score=match_json)
+        match_model = MatchModel(uuid=match_uuid,
+                                 player1_id=player1.id,
+                                 player2_id=player2.id,
+                                 winner_id=None,
+                                 score=match_json)
 
         self.session.add(match_model)
         self.session.flush()
         return match_model
 
 
-    def get_match_score_by_uuid(self, uuid):
+    def _build_domain_match(self, match_model):
+        match_score = json.loads(match_model.score)
+        return match_from_dict(match_score)
+
+
+    def _build_player_score_dto(self, name, player_number, domain_match):
+        return PlayerScoreDTO(name=name,
+                              sets=domain_match.sets[player_number - 1],
+                              games=domain_match.current_set.games[player_number - 1],
+                              points=domain_match.current_set.current_game.display()[player_number - 1] if not domain_match.winner() else "-",
+                              tiebreak=domain_match.current_set.tiebreak[player_number - 1] if domain_match.current_set.tiebreak else None
+                              )
+
+
+    def get_match_score_dto_by_uuid(self, uuid):
         match = self.get_match_by_uuid(uuid)
-        return match.score
+        if not match:
+            raise MatchDoesntExistsError
+        domain_match = self._build_domain_match(match)
+        p1_name = self.player_service_obj.get_player_name_by_id(match.player1_id)
+        p2_name = self.player_service_obj.get_player_name_by_id(match.player2_id)
+        p1_score_dto = self._build_player_score_dto(p1_name, 1, domain_match)
+        p2_score_dto = self._build_player_score_dto(p2_name, 2, domain_match)
+        is_finished = match.winner_id is not None
+        winner = self.player_service_obj.get_player_name_by_id(match.winner_id)
+        return MatchScoreDTO(uuid=uuid,
+                             player1=p1_score_dto,
+                             player2=p2_score_dto,
+                             is_finished=is_finished,
+                             winner_name=winner
+                             )
 
 
     def get_match_by_uuid(self, uuid):
@@ -133,7 +166,12 @@ class MatchService:
             match_obj, p1_name, p2_name = match
             score_dict = json.loads(match_obj.score)
             score = score_dict["ended_sets"]
-            match_dto = MatchDTO(uuid=match_obj.uuid, player1_name=p1_name, player2_name=p2_name, winner_name=p1_name if match_obj.winner_id == match_obj.player1_id else p2_name, score=score)
+            match_dto = MatchDTO(uuid=match_obj.uuid,
+                                 player1_name=p1_name,
+                                 player2_name=p2_name,
+                                 winner_name=p1_name if match_obj.winner_id == match_obj.player1_id else p2_name,
+                                 score=score
+                                 )
             dto_list.append(match_dto)
         return dto_list
 

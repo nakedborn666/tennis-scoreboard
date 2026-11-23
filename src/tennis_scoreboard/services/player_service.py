@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from models.player import PlayerModel
+from tennis_scoreboard.models.player import PlayerModel
 
 class PlayerService:
     def __init__(self, session):
@@ -20,3 +20,14 @@ class PlayerService:
         stmt = select(PlayerModel).where(PlayerModel.name == name)
         player = self.session.scalar(stmt)
         return player
+
+
+    def get_player_name_by_id(self, player_id):
+        if player_id is None:
+            return None
+        player = self.session.get(PlayerModel, player_id)
+        if player is None:
+            return None
+        return player.name
+
+

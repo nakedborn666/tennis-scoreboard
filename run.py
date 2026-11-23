@@ -1,6 +1,6 @@
 
 import waitress
-from web.app import application
+from tennis_scoreboard.web.app import application
 
 
 if __name__ == "__main__":

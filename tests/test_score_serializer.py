@@ -1,6 +1,6 @@
-from domain.match import Match
-from domain.score_serializer import match_to_dict, match_from_dict
-from domain.set import Set
+from tennis_scoreboard.domain.match import Match
+from tennis_scoreboard.domain.score_serializer import match_to_dict, match_from_dict
+from tennis_scoreboard.domain.set import Set
 
 
 def test_match_to_dict():

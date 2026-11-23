@@ -1,5 +1,5 @@
 
-from exceptions.exceptions import GameAlreadyEndedError
+from tennis_scoreboard.exceptions.exceptions import GameAlreadyEndedError
 
 _POINT_NAMES = {0: "0",
                 1: "15",

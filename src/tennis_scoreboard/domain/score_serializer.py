@@ -1,4 +1,5 @@
-from domain.match import Match
+from tennis_scoreboard.domain.match import Match
+
 
 def match_to_dict(match_obj: Match) -> dict:
     sets = [match_obj.player1_sets, match_obj.player2_sets]
@@ -7,8 +8,6 @@ def match_to_dict(match_obj: Match) -> dict:
     return {"sets": sets,
             "ended_sets": ended_sets,
             "current_set": current_set}
-
-
 
 
 def match_from_dict(data):

@@ -1,7 +1,7 @@
-from domain.set import Set
+from tennis_scoreboard.domain.set import Set
 import pytest
-from exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError
-from domain.game import Game
+from tennis_scoreboard.exceptions.exceptions import SetAlreadyEndedError, TieBreakAlreadyEndedError
+from tennis_scoreboard.domain.game import Game
 
 
 def test_new_set():

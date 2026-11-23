@@ -1,5 +1,5 @@
-from domain.set import Set
-from exceptions.exceptions import MatchAlreadyEndedError
+from tennis_scoreboard.domain.set import Set
+from tennis_scoreboard.exceptions.exceptions import MatchAlreadyEndedError
 
 class Match:
     def __init__(self):
@@ -18,6 +18,11 @@ class Match:
         match._current_set = Set.from_games(current_set["games"], current_set["points"], current_set["tiebreak"])
         match._ended_sets = ended_sets
         return match
+
+
+    @property
+    def sets(self):
+        return (self._sets[1], self._sets[2])
 
 
     @property
