@@ -17,6 +17,15 @@ class Response:
 
 
     @classmethod
+    def bytes_helper(cls, body: bytes, content_type: str, status=HTTPStatus.OK):
+        headers = [("Content-Type", content_type),
+                   ("Content-Length", str(len(body))),
+                   ("Cache-Control", "public, max-age=3600")]
+
+        return cls(status=status, headers=headers, body=body)
+
+
+    @classmethod
     def redirect(cls, location):
         return cls(status=HTTPStatus.SEE_OTHER,
                    headers=[("Location", location), ("Content-Length", "0")],

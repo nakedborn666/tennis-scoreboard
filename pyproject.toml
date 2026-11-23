@@ -16,7 +16,12 @@ tennis-scoreboard = "tennis_scoreboard.__main__:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-tennis_scoreboard = ["templates/*.html"]
+tennis_scoreboard = [
+    "templates/*.html",
+    "static/css/*.css",
+    "static/js/*.js",
+    "static/images/*",
+]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}

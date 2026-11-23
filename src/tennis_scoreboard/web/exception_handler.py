@@ -1,26 +1,37 @@
 import logging
 
-from tennis_scoreboard.exceptions.exceptions import BadRequestError, RouteDoesntExistsError, MethodDismatchToPathError, MatchUuidDoesntExistError, MatchDoesntExistsError, PageShouldBeNumberError, MatchAlreadyEndedError
+from tennis_scoreboard.exceptions.exceptions import (
+    BadRequestError,
+    MatchAlreadyEndedError,
+    MatchDoesntExistsError,
+    MethodDismatchToPathError,
+    MatchUuidDoesntExistError,
+    PageShouldBeNumberError,
+    RouteDoesntExistsError,
+)
 from tennis_scoreboard.web.response import Response
+from tennis_scoreboard.web.templating import render_template
 from http import HTTPStatus
 
 logger = logging.getLogger(__name__)
 
 
 _HTTP_EXCEPTIONS = {
-    BadRequestError: ("<h1>Некорректный запрос</h1>", HTTPStatus.BAD_REQUEST),
-    RouteDoesntExistsError: ("<h1>Страница не найдена</h1>", HTTPStatus.NOT_FOUND),
-    MethodDismatchToPathError: ("<h1>Метод не поддерживается</h1>", HTTPStatus.METHOD_NOT_ALLOWED),
-    MatchUuidDoesntExistError: ("<h1>Uuid матча не передан</h1>", HTTPStatus.BAD_REQUEST),
-    MatchDoesntExistsError: ("<h1>Матч не найден</h1>", HTTPStatus.NOT_FOUND),
-    PageShouldBeNumberError: ("<h1>Номер страницы должен быть положительным числом</h1>", HTTPStatus.BAD_REQUEST),
-    MatchAlreadyEndedError: ("<h1>Матч уже завершен</h1>", HTTPStatus.CONFLICT)
-    }
+    BadRequestError: ("Некорректный запрос", HTTPStatus.BAD_REQUEST),
+    RouteDoesntExistsError: ("Страница не найдена", HTTPStatus.NOT_FOUND),
+    MethodDismatchToPathError: ("Метод не поддерживается", HTTPStatus.METHOD_NOT_ALLOWED),
+    MatchUuidDoesntExistError: ("UUID матча не передан", HTTPStatus.BAD_REQUEST),
+    MatchDoesntExistsError: ("Матч не найден", HTTPStatus.NOT_FOUND),
+    PageShouldBeNumberError: ("Номер страницы должен быть положительным числом", HTTPStatus.BAD_REQUEST),
+    MatchAlreadyEndedError: ("Матч уже завершён", HTTPStatus.CONFLICT),
+}
 
 def error_response(error):
-    if type(error) in _HTTP_EXCEPTIONS:
-        message, code = _HTTP_EXCEPTIONS[type(error)]
-        return Response.html_helper(message, code)
+    response_spec = _HTTP_EXCEPTIONS.get(type(error))
+    if response_spec is not None:
+        message, code = response_spec
+        return Response.html_helper(render_template("error.html", message=message), code)
     else:
         logger.exception("Необработанная ошибка: %s", type(error).__name__)
-        return Response.html_helper("<h1>Ошибка сервера</h1>", HTTPStatus.INTERNAL_SERVER_ERROR)
+        message = "Ошибка сервера"
+        return Response.html_helper(render_template("error.html", message=message), HTTPStatus.INTERNAL_SERVER_ERROR)

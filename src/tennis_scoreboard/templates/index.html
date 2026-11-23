@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 
+{% block title %}Tennis Scoreboard | Главная{% endblock %}
+
 {% block content %}
+<div class="container">
     <h1>Табло теннисного матча</h1>
-    <a href="/new-match">Новый матч</a>
-    <a href="/matches">Завершённые матчи</a>
+    <p>Создавайте матчи, ведите счёт и просматривайте результаты</p>
+    <div class="welcome-image"></div>
+    <div class="form-container center">
+        <a class="homepage-action-button btn start-match" href="/new-match">
+            Начать новый матч
+        </a>
+        <a class="homepage-action-button btn view-results" href="/matches">
+            Завершённые матчи
+        </a>
+    </div>
+</div>
 {% endblock %}

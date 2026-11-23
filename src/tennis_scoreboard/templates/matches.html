@@ -1,31 +1,34 @@
-
 {% extends "base.html" %}
 
+{% block title %}Tennis Scoreboard | Завершённые матчи{% endblock %}
+
 {% block content %}
-<section class="matches">
+<div class="container">
     <h1>Завершённые матчи</h1>
 
-    <form method="get" action="/matches">
-        <label for="filter_by_player_name">Имя игрока</label>
-        <input
-            id="filter_by_player_name"
-            type="text"
-            name="filter_by_player_name"
-            value="{{ filter_by_player_name }}"
-        >
-        <button type="submit">Искать</button>
-        <a href="/matches">Сбросить</a>
+    <form class="form-matches" method="get" action="/matches">
+        <div class="input-container">
+            <input
+                class="input-filter"
+                id="filter_by_player_name"
+                type="text"
+                name="filter_by_player_name"
+                placeholder="Поиск по имени игрока"
+                value="{{ filter_by_player_name or '' }}"
+            >
+            <button class="btn-filter" type="submit">Искать</button>
+        </div>
     </form>
 
     {% if matches_page.matches %}
-    <table class="matches-table">
+    <table class="table-matches matches-list">
         <thead>
             <tr>
-                <th>Игрок 1</th>
-                <th>Игрок 2</th>
+                <th>Первый игрок</th>
+                <th>Второй игрок</th>
                 <th>Победитель</th>
                 <th>Счёт</th>
-                <th>Матч</th>
+                <th></th>
             </tr>
         </thead>
 
@@ -34,7 +37,9 @@
             <tr>
                 <td>{{ match.player1_name }}</td>
                 <td>{{ match.player2_name }}</td>
-                <td>{{ match.winner_name }}</td>
+                <td>
+                    <span class="winner-name-td">{{ match.winner_name }}</span>
+                </td>
                 <td>
                     {% for set_score in match.score %}
                         {{ set_score[0] }}:{{ set_score[1] }}
@@ -57,27 +62,27 @@
     {% if matches_page.total_pages > 1 %}
     <nav class="pagination" aria-label="Пагинация">
         {% if matches_page.current_page > 1 %}
-            <a href="/matches?page={{ matches_page.current_page - 1 }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
-                Назад
+            <a class="prev" href="/matches?page={{ matches_page.current_page - 1 }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
+                &lt;
             </a>
         {% endif %}
 
         {% for page_number in range(1, matches_page.total_pages + 1) %}
             {% if page_number == matches_page.current_page %}
-                <strong>{{ page_number }}</strong>
+                <span class="num-page current">{{ page_number }}</span>
             {% else %}
-                <a href="/matches?page={{ page_number }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
+                <a class="num-page" href="/matches?page={{ page_number }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
                     {{ page_number }}
                 </a>
             {% endif %}
         {% endfor %}
 
         {% if matches_page.current_page < matches_page.total_pages %}
-            <a href="/matches?page={{ matches_page.current_page + 1 }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
-                Вперёд
+            <a class="next" href="/matches?page={{ matches_page.current_page + 1 }}{% if filter_by_player_name %}&filter_by_player_name={{ filter_by_player_name | urlencode }}{% endif %}">
+                &gt;
             </a>
         {% endif %}
     </nav>
     {% endif %}
-</section>
+</div>
 {% endblock %}

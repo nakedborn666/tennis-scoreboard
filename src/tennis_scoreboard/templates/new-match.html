@@ -1,15 +1,38 @@
 {% extends "base.html" %}
 
+{% block title %}Tennis Scoreboard | Новый матч{% endblock %}
+
 {% block content %}
+<div class="container">
     <h1>Новый матч</h1>
+    <div class="new-match-image"></div>
 
-    <form method="post" action="/new-match">
-        <label for="player1_name">Имя игрока 1</label>
-        <input id="player1_name" name="player1_name" type="text" required>
+    <div class="form-container center">
+        <form method="post" action="/new-match">
+            <label class="label-player" for="player1_name">Игрок 1</label>
+            <input
+                class="input-player"
+                id="player1_name"
+                name="player1_name"
+                type="text"
+                placeholder="Введите имя"
+                title="Введите имя игрока"
+                required
+            >
 
-        <label for="player2_name">Имя игрока 2</label>
-        <input id="player2_name" name="player2_name" type="text" required>
+            <label class="label-player" for="player2_name">Игрок 2</label>
+            <input
+                class="input-player"
+                id="player2_name"
+                name="player2_name"
+                type="text"
+                placeholder="Введите имя"
+                title="Введите имя игрока"
+                required
+            >
 
-        <button type="submit">Начать</button>
-    </form>
+            <input class="form-button" type="submit" value="Начать">
+        </form>
+    </div>
+</div>
 {% endblock %}

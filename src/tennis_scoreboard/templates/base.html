@@ -2,15 +2,46 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>Теннисное табло</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Tennis Scoreboard{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/app.js" defer></script>
 </head>
 <body>
-    <header>
-        <a href="/">Теннисное табло</a>
-    </header>
+<header class="header">
+    <section class="nav-header">
+        <div class="brand">
+            <div class="nav-toggle">
+                <img src="/static/images/menu.png" alt="Меню" class="logo">
+            </div>
+            <span class="logo-text">TennisScoreboard</span>
+        </div>
+        <div>
+            <nav class="nav-links">
+                <a class="nav-link" href="/">Главная</a>
+                <a class="nav-link" href="/matches">Матчи</a>
+            </nav>
+        </div>
+    </section>
+</header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<footer>
+    <div class="footer">
+        <p>
+            &copy; Tennis Scoreboard, проект по
+            <a href="https://zhukovsd.github.io/python-backend-learning-course/">
+                Python roadmap
+            </a>
+        </p>
+    </div>
+</footer>
 </body>
 </html>

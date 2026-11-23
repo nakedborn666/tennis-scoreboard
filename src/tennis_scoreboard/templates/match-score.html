@@ -1,26 +1,30 @@
 {% extends "base.html" %}
 
+{% block title %}Tennis Scoreboard | Счёт матча{% endblock %}
+
 {% block content %}
-<section class="match-score">
-    <h1>Текущий матч</h1>
+<div class="container">
+    <h1>Счёт матча</h1>
+    <div class="current-match-image"></div>
 
-    <table class="score-table">
-        <thead>
+    <section class="score">
+        <table class="table">
+            <thead class="result">
             <tr>
-                <th>Игрок</th>
-                <th>Сеты</th>
-                <th>Геймы</th>
-                <th>Очки</th>
-                <th>Действие</th>
+                <th class="table-text">Игрок</th>
+                <th class="table-text">Сеты</th>
+                <th class="table-text">Геймы</th>
+                <th class="table-text">Очки</th>
+                <th class="table-text">Действие</th>
             </tr>
-        </thead>
+            </thead>
 
-        <tbody>
+            <tbody>
             <tr class="player1">
-                <td>{{ match_score.player1.name }}</td>
-                <td>{{ match_score.player1.sets }}</td>
-                <td>{{ match_score.player1.games }}</td>
-                <td>
+                <td class="table-text">{{ match_score.player1.name }}</td>
+                <td class="table-text">{{ match_score.player1.sets }}</td>
+                <td class="table-text">{{ match_score.player1.games }}</td>
+                <td class="table-text">
                     {% if match_score.player1.tiebreak is not none %}
                         {{ match_score.player1.tiebreak }}
                         <small>(тай-брейк)</small>
@@ -28,21 +32,21 @@
                         {{ match_score.player1.points }}
                     {% endif %}
                 </td>
-                <td>
+                <td class="table-text">
                     {% if not match_score.is_finished %}
                     <form method="post" action="/match-score?uuid={{ match_score.uuid }}">
                         <input type="hidden" name="player_number" value="1">
-                        <button type="submit">Игрок 1 выиграл очко</button>
+                        <button class="score-btn" type="submit">Очко</button>
                     </form>
                     {% endif %}
                 </td>
             </tr>
 
             <tr class="player2">
-                <td>{{ match_score.player2.name }}</td>
-                <td>{{ match_score.player2.sets }}</td>
-                <td>{{ match_score.player2.games }}</td>
-                <td>
+                <td class="table-text">{{ match_score.player2.name }}</td>
+                <td class="table-text">{{ match_score.player2.sets }}</td>
+                <td class="table-text">{{ match_score.player2.games }}</td>
+                <td class="table-text">
                     {% if match_score.player2.tiebreak is not none %}
                         {{ match_score.player2.tiebreak }}
                         <small>(тай-брейк)</small>
@@ -50,17 +54,18 @@
                         {{ match_score.player2.points }}
                     {% endif %}
                 </td>
-                <td>
+                <td class="table-text">
                     {% if not match_score.is_finished %}
                     <form method="post" action="/match-score?uuid={{ match_score.uuid }}">
                         <input type="hidden" name="player_number" value="2">
-                        <button type="submit">Игрок 2 выиграл очко</button>
+                        <button class="score-btn" type="submit">Очко</button>
                     </form>
                     {% endif %}
                 </td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </section>
 
     {% if match_score.is_finished %}
         <p class="match-winner">
@@ -68,8 +73,5 @@
         </p>
     {% endif %}
 
-    <p>
-        <a href="/matches">Завершённые матчи</a>
-    </p>
-</section>
+</div>
 {% endblock %}
